@@ -1,0 +1,36 @@
+{
+  "name": "react-native-gesture-handler-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/react-native-gesture-handler",
+    "apps/basic-example",
+    "apps/expo-example",
+    "apps/macos-example",
+    "apps/common-app"
+  ],
+  "scripts": {
+    "postinstall": "yarn build",
+    "build": "husky install && yarn workspaces foreach --all --parallel --topological-dev run build",
+    "ts-check": "yarn workspaces foreach --all --parallel --topological-dev run ts-check",
+    "lint-js": "yarn workspaces foreach --all --parallel --topological-dev run lint-js",
+    "format-js": "yarn workspaces foreach --all --parallel --topological-dev run format-js",
+    "clean": "yarn workspaces foreach --all --parallel --topological-dev run clean && rm -rf node_modules yarn.lock"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.12",
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
+    "@typescript-eslint/parser": "^6.9.0",
+    "eslint": "^8.57.0",
+    "eslint-config-satya164": "3.3.0",
+    "eslint-import-resolver-babel-module": "^5.2.0",
+    "eslint-plugin-jest": "27.4.3",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-react": "^7.37.5",
+    "husky": "^8.0.1",
+    "lint-staged": "^12.3.2",
+    "prettier": "3.3.3",
+    "typescript": "~5.8.3"
+  },
+  "packageManager": "yarn@4.7.0"
+}
