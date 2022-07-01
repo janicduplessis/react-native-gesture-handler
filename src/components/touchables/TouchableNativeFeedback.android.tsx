@@ -27,10 +27,8 @@ export default class TouchableNativeFeedback extends Component<TouchableNativeFe
   static defaultProps = {
     ...GenericTouchable.defaultProps,
     useForeground: true,
-    extraButtonProps: {
-      // Disable hiding ripple on Android
-      rippleColor: null,
-    },
+    // Disable hiding ripple on Android
+    rippleColor: null,
   };
 
   // could be taken as RNTouchableNativeFeedback.SelectableBackground etc. but the API may change
@@ -84,7 +82,7 @@ export default class TouchableNativeFeedback extends Component<TouchableNativeFe
       <GenericTouchable
         {...rest}
         style={style}
-        extraButtonProps={this.getExtraButtonProps()}
+        {...this.getExtraButtonProps()}
       />
     );
   }
