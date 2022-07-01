@@ -10,8 +10,9 @@ import {
   HandlerStateChangeEvent,
 } from '../../handlers/gestureHandlerCommon';
 import type { NativeViewGestureHandlerPayload } from '../../handlers/GestureHandlerEventPayload';
-import type { TouchableNativeFeedbackExtraProps } from './TouchableNativeFeedbackProps';
 import type { GenericTouchableProps } from './GenericTouchableProps';
+
+const AnimatedBaseButton = Animated.createAnimatedComponent(BaseButton);
 
 /**
  * Each touchable is a states' machine which preforms transitions.
@@ -29,8 +30,12 @@ export const TOUCHABLE_STATE = {
 type TouchableState = (typeof TOUCHABLE_STATE)[keyof typeof TOUCHABLE_STATE];
 
 interface InternalProps {
-  extraButtonProps: TouchableNativeFeedbackExtraProps;
   onStateChange?: (oldState: TouchableState, newState: TouchableState) => void;
+  borderless?: boolean;
+  rippleColor?: string | number | null;
+  rippleRadius?: number | null;
+  foreground?: boolean;
+  exclusive?: boolean;
 }
 
 // TODO: maybe can be better
@@ -47,10 +52,8 @@ export default class GenericTouchable extends Component<
 > {
   static defaultProps = {
     delayLongPress: 600,
-    extraButtonProps: {
-      rippleColor: 'transparent',
-      exclusive: true,
-    },
+    rippleColor: 'transparent',
+    exclusive: true,
   };
 
   // Timeout handlers
@@ -250,11 +253,20 @@ export default class GenericTouchable extends Component<
       onAccessibilityAction: this.props.onAccessibilityAction,
       nativeID: this.props.nativeID,
       onLayout: this.props.onLayout,
+      borderless: this.props.borderless,
+      rippleColor: this.props.rippleColor,
+      exclusive: this.props.exclusive,
+      rippleRadius: this.props.rippleRadius,
+      foreground: this.props.foreground,
+      // rn-web
+      className: (this.props as any).className,
+      href: (this.props as any).href,
+      onClick: (this.props as any).onClick,
+      onMouseEnter: (this.props as any).onMouseEnter,
     };
 
     return (
-      <BaseButton
-        style={this.props.containerStyle}
+      <AnimatedBaseButton
         onHandlerStateChange={
           // TODO: not sure if it can be undefined instead of null
           this.props.disabled ? undefined : this.onHandlerStateChange
@@ -267,11 +279,10 @@ export default class GenericTouchable extends Component<
         testID={this.props.testID}
         touchSoundDisabled={this.props.touchSoundDisabled ?? false}
         enabled={!this.props.disabled}
-        {...this.props.extraButtonProps}>
-        <Animated.View {...coreProps} style={this.props.style}>
-          {this.props.children}
-        </Animated.View>
-      </BaseButton>
+        {...coreProps}
+        style={this.props.style}>
+        {this.props.children}
+      </AnimatedBaseButton>
     );
   }
 }
