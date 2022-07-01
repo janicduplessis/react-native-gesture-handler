@@ -1,9 +1,4 @@
-import type {
-  StyleProp,
-  ViewStyle,
-  TouchableWithoutFeedbackProps,
-  Insets,
-} from 'react-native';
+import type { TouchableWithoutFeedbackProps, Insets } from 'react-native';
 import type { UserSelect } from '../../handlers/gestureHandlerCommon';
 
 export interface GenericTouchableProps
@@ -20,7 +15,6 @@ export interface GenericTouchableProps
   shouldActivateOnStart?: boolean;
   disallowInterruption?: boolean;
 
-  containerStyle?: StyleProp<ViewStyle>;
   hitSlop?: Insets | number;
   userSelect?: UserSelect;
 }
