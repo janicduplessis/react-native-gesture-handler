@@ -31,11 +31,14 @@ type TouchableState = (typeof TOUCHABLE_STATE)[keyof typeof TOUCHABLE_STATE];
 
 interface InternalProps {
   onStateChange?: (oldState: TouchableState, newState: TouchableState) => void;
-  borderless?: boolean;
-  rippleColor?: string | number | null;
-  rippleRadius?: number | null;
-  foreground?: boolean;
-  exclusive?: boolean;
+  // `| undefined` is required by exactOptionalPropertyTypes, enabled upstream
+  // in 2.32: TouchableNativeFeedback.android builds these up in a partial
+  // object and spreads it, so each one can be explicitly undefined.
+  borderless?: boolean | undefined;
+  rippleColor?: string | number | null | undefined;
+  rippleRadius?: number | null | undefined;
+  foreground?: boolean | undefined;
+  exclusive?: boolean | undefined;
 }
 
 type Timeout = ReturnType<typeof setTimeout> | undefined;
